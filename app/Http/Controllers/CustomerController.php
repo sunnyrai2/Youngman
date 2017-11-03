@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\QuickBookController;
 
 use App\Customer;
 
@@ -74,11 +75,28 @@ class CustomerController extends Controller
 
         $this->validate($request, [
 
-            'title' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'company' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'credit_limit' => 'required',
+            'billing_address_line' => 'required',
+            'billing_address_city' => 'required',
+            'billing_address_pincode' => 'required',
+            'mailing_address_line' => 'required',
+            'mailing_address_city' => 'required',
+            'mailing_address_pincode' => 'required',
+            'gstn' => 'required',
+            'security_etter' => 'required',
+            'rental_advance' => 'required',
+            'rental_order' => 'required',
+            'security_cheque' => 'required',
 
-            'description' => 'required',
 
         ]);
+
+        $request->security_etter =='on' ? $request->security_etter=1:$request->security_etter=0;
 
 
         Customer::create($request->all());
@@ -132,7 +150,7 @@ class CustomerController extends Controller
 
         $customer= Customer::find($id);
 
-        return view('Customer.edit',compact('customer'));
+        return view('customer.edit',compact('customer'));
 
     }
 

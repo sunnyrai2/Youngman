@@ -10,13 +10,13 @@
 
           <div class="pull-left">
 
-              <h2>Create New Customer</h2>
+              <h2>Create New Quotation</h2>
 
           </div>
 
           <div class="pull-right">
 
-              <a class="btn btn-primary" href="{{ route('customer.index') }}"> Back</a>
+              <a class="btn btn-primary" href="{{ route('quotation.index') }}"> Back</a>
 
           </div>
 
@@ -44,7 +44,7 @@
 
   @endif
 
-  {!! Form::open(array('route' => 'customer.store','method'=>'POST')) !!}
+  {!! Form::open(array('route' => 'quotation.store','method'=>'POST')) !!}
 
   <div class="row">
 
@@ -52,7 +52,24 @@
 
             <div class="form-group">
 
-                {!! Form::text('first_name', null, array('placeholder' => 'First Name','class' => 'form-control')) !!}
+                {!! Form::text('customer_id', null, array('placeholder' => 'Customer Id','class' => 'form-control')) !!}
+
+            </div>
+
+        </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+
+                {!! Form::text('search_text', null, array('placeholder' => 'Search Text','class' => 'form-control','id'=>'search_customer')) !!}
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                {!! Form::text('customer_name', null, array('placeholder' => 'Customer Name','class' => 'form-control')) !!}
 
             </div>
 
@@ -62,7 +79,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('last_name', null, array('placeholder' => 'Last Name','class' => 'form-control')) !!}
+                {!! Form::text('contact_name', null, array('placeholder' => 'Contact Name','class' => 'form-control')) !!}
 
             </div>
 
@@ -72,37 +89,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('company', null, array('placeholder' => 'Company','class' => 'form-control')) !!}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                {!! Form::number('phone', null, array('placeholder' => 'Phone','class' => 'form-control')) !!}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                {!! Form::text('credit_limit', null, array('placeholder' => 'Credit Limit','class' => 'form-control')) !!}
+                {!! Form::text('site_name', null, array('placeholder' => 'Site Name','class' => 'form-control')) !!}
 
             </div>
 
@@ -142,7 +129,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('mailing_address_line', null, array('placeholder' => 'MailingAddress','class' => 'form-control')) !!}
+                {!! Form::text('delivery_address_line', null, array('placeholder' => 'Delivery Address','class' => 'form-control')) !!}
 
             </div>
 
@@ -152,7 +139,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('mailing_address_city', null, array('placeholder' => 'Mailing Address City','class' => 'form-control')) !!}
+                {!! Form::text('delivery_address_city', null, array('placeholder' => 'Delivery Address City','class' => 'form-control')) !!}
 
             </div>
 
@@ -162,7 +149,7 @@
 
             <div class="form-group">
 
-                {!! Form::number('mailing_address_pincode', null, array('placeholder' => 'Mailing Address Pincode','class' => 'form-control')) !!}
+                {!! Form::number('delivery_address_pincode', null, array('placeholder' => 'Delivery Address Pincode','class' => 'form-control')) !!}
 
             </div>
 
@@ -172,7 +159,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('gstn', null, array('placeholder' => 'GSTN','class' => 'form-control')) !!}
+                {!! Form::date('delivery_date', null, array('placeholder' => 'Delivery Date','class' => 'form-control', 'id' => 'delivery_date')) !!}
 
             </div>
 
@@ -182,8 +169,8 @@
 
             <div class="form-group">
 
-                {!! Form::checkbox('security_etter', 1, array('value' => 'true','class' => 'form-control')) !!}
-                Security Letter
+                {{ Form::text('pickup_date', '', array('placeholder' => 'Pickup Date', 'id' => 'pickup_date', 'class' => 'form-control')) }}
+
             </div>
 
         </div>
@@ -192,34 +179,11 @@
 
             <div class="form-group">
 
-                {!! Form::checkbox('rental_advance', 1, array('value' => 'true','class' => 'form-control')) !!}
-                Rental Advance
+               {!! Form::date('security_amt', null, array('placeholder' => 'Security Amount','class' => 'form-control')) !!}
+
             </div>
 
         </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                {!! Form::checkbox('rental_order', 1, array('true','class' => 'form-control')) !!}
-                Rental Order
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                {!! Form::checkbox('security_cheque', 1, array('true','class' => 'form-control')) !!}
-                Security Cheque
-            </div>
-
-        </div>
-
-
-
 
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 
@@ -232,3 +196,11 @@
   {!! Form::close() !!}
 
 @endsection
+
+@section('scripts')
+
+    @include('includes.scripts.datepicker')
+    @include('includes.scripts.search_customer')
+
+@endsection
+

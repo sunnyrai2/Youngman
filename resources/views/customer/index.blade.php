@@ -44,9 +44,9 @@
 
       <th>No</th>
 
-      <th>Title</th>
+      <th>Name</th>
 
-      <th>Description</th>
+      <th>Company</th>
 
       <th width="280px">Action</th>
 
@@ -58,9 +58,9 @@
 
     <td>{{ ++$i }}</td>
 
-    <td>{{ $customer->title }}</td>
+    <td>{{ $customer->first_name }}</td>
 
-    <td>{{ $customer->description }}</td>
+    <td>{{ $customer->company }}</td>
 
     <td>
 
