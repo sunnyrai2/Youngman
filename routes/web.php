@@ -223,4 +223,48 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'QuotationController@destroy','middleware' => ['permission:quotation-delete']
     ]);
 
+  Route::get('order',
+    [
+      'as'=>'order.index',
+      'uses'=>'OrderController@index','middleware' => ['permission:quotation-list|order-create|order-edit|order-delete']
+    ]);
+
+  Route::get('order/{id}/create/',
+    [
+      'as'=>'order.create',
+      'uses'=>'OrderController@create','middleware' => ['permission:order-create']
+    ]);
+
+
+  Route::post('order/store',
+    [
+      'as'=>'order.store',
+      'uses'=>'OrderController@store','middleware' => ['permission:order-create']
+    ]);
+
+  Route::get('order/{id}',
+    [
+      'as'=>'order.show',
+      'uses'=>'OrderController@show'
+    ]);
+
+  Route::get('order/{id}/edit',
+    [
+      'as'=>'order.edit',
+      'uses'=>'OrderController@edit','middleware' => ['permission:order-edit']
+    ]);
+
+  Route::patch('order/{id}',
+    [
+      'as'=>'order.update',
+      'uses'=>'OrderController@update','middleware' => ['permission:order-edit']
+    ]);
+
+  Route::delete('order/{id}',
+    [
+      'as'=>'order.destroy',
+      'uses'=>'OrderController@destroy','middleware' => ['permission:order-delete']
+    ]);
+
+
 });

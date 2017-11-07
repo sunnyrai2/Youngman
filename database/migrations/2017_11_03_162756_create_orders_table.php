@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->string('po_no');
 
             $table->integer('place_of_supply')->unsigned();
-            $table->foreign('place_of_supply')->references('id')->on('states');
+            $table->foreign('place_of_supply')->references('state_code')->on('states');
 
             $table->integer('first_bill')->nullable();
 

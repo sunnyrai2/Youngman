@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class States extends Migration
+class CreateStatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class States extends Migration
         Schema::create('states', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('state_code');
+             $table->integer('state_code')->unique()->unsigned();
             $table->string('state_name');
 
             $table->timestamps();
@@ -30,6 +30,6 @@ class States extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('states');
     }
 }

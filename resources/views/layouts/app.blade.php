@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 
 </head>
 
@@ -46,7 +46,7 @@
 
                 <a class="navbar-brand" href="{{ url('/') }}">
 
-                    Laravel
+                    Youngman
 
                 </a>
 
@@ -69,6 +69,8 @@
                     <li><a href="{{ route('customer.index') }}">Customers</a></li>
 
                     <li><a href="{{ route('quotation.index') }}">Quotations</a></li>
+
+                    <li><a href="{{ route('order.index') }}">Orders</a></li>
 
                 </ul>
 

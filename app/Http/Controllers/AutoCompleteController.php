@@ -20,7 +20,13 @@ class AutoCompleteController extends Controller
 
         $data=array();
         foreach ($customers as $customer) {
-                $data[]=array('value'=>$customer->company,'id'=>$customer->id);
+                $data[]=array(
+                    'value'=>$customer->company,
+                    'id'=>$customer->id,
+                    'billing_address_line'=>$customer->billing_address_line,
+                    'billing_address_city'=>$customer->billing_address_city,
+                    'billing_address_pincode'=>$customer->billing_address_pincode
+                );
         }
         if(count($data))
              return $data;

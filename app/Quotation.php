@@ -32,11 +32,11 @@ class Quotation extends Model
      * The items in this quotation
      *
      */
-
-    public function items()
+public function quotation_items()
     {
-
+        return $this->hasMany('App\QuotationItems');
     }
+
 
 
 }

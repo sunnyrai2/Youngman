@@ -56,7 +56,7 @@
 
     <td>{{ ++$i }}</td>
 
-    <td>{{ $quotation->first_name }}</td>
+    <td>{{ $quotation->site_name }}</td>
 
 
     <td>
