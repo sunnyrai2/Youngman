@@ -20,6 +20,7 @@ class QuickBookController extends Controller
         }
         $this->IntuitAnywhere = new \QuickBooks_IPP_IntuitAnywhere(env('QBO_DSN'), env('QBO_ENCRYPTION_KEY'), env('QBO_OAUTH_CONSUMER_KEY'), env('QBO_CONSUMER_SECRET'), env('QBO_OAUTH_URL'), env('QBO_SUCCESS_URL'));
     }
+
     public function  qboConnect(){
 
 
@@ -149,6 +150,10 @@ class QuickBookController extends Controller
         {
             print($ItemService->lastError($this->context));
         }
+    }
+
+    public function createOrder(Request $request){
+        return rand(1, 500);
     }
 
     public function addInvoice($invoiceArray,$itemArray,$customerRef){

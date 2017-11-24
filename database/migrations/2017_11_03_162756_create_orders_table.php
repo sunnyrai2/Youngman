@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
 
             $table->integer('quickbooks_id')->unique();
             $table->string('job_order')->unique();
+
             $table->string('po_no');
 
             $table->integer('place_of_supply')->unsigned();
@@ -34,7 +35,7 @@ class CreateOrdersTable extends Migration
             $table->string('security_cheque')->nullable();
 
             $table->timestamp('released_at')->nullable();
-            $table->string('godown_id')->nullable();
+            $table->integer('godown_id')->nullable();
             $table->decimal('security_amt', 12,2)->nullable();
             $table->timestamps();
 

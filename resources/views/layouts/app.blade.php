@@ -64,14 +64,35 @@
 
                     <li><a href="{{ route('roles.index') }}">Roles</a></li>
 
+                    @permission('items-create')
+
                     <li><a href="{{ route('itemCRUD2.index') }}">Items</a></li>
+
+                    @endpermission
+
+                    @permission('customer-create')
 
                     <li><a href="{{ route('customer.index') }}">Customers</a></li>
 
+                    @endpermission
+
+                    @permission('quotation-create')
+
                     <li><a href="{{ route('quotation.index') }}">Quotations</a></li>
+
+                    @endpermission
+
+                    @permission('order-create')
 
                     <li><a href="{{ route('order.index') }}">Orders</a></li>
 
+                    @endpermission
+
+                    @permission('challan-create')
+
+                    <li><a href="{{ route('challan.index') }}">Planning</a></li>
+
+                    @endpermission
                 </ul>
 
                 <!-- Right Side Of Navbar -->

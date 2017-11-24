@@ -12,6 +12,12 @@ use App\Quotation;
 
 use App\State;
 
+use App\Location;
+
+use DB;
+
+use App\Http\Controllers\QuickBookController;
+
 class OrderController extends Controller
 {
     /**
@@ -52,9 +58,12 @@ class OrderController extends Controller
             'place_of_supply'=>'required',
         ]);
 
-        $order = new Order;
+        $security_etter_new_name = null;
+        $rental_advance_new_name = null;
+        $rental_order_new_name = null;
+        $security_cheque_new_name = null;
 
-
+        $job_order = "Job/".rand(1,100);
 
         if($request->hasFile('security_etter')){
             $security_etter = $request->security_etter;
@@ -80,24 +89,47 @@ class OrderController extends Controller
             $security_cheque->move('uploads/order_attach', $security_cheque_new_name);
         }
 
-        //Upload to quickbooks
 
-        $order = Order::create([
-             'quotation_id' => $request->quotation_id,
-             'quickbooks_id'=> $quickbooks_id,
-             'job_order' => $job_order,
-             'po_no' =>$request->po_no,
-             'place_of_supply' => $request->place_of_supply,
-             'security_etter' => 'uploads/order_attach' . $security_etter_new_name,
-             'rental_advance' => 'uploads/order_attach' . $rental_advance_new_name,
-             'rental_order' => 'uploads/order_attach' . $rental_order_new_name,
-             'security_cheque' => 'uploads/order_attach' . $security_cheque
-        ]);
+        $quickbooks_controller = new QuickBookController();
+        $quickbooks_id = $quickbooks_controller->createOrder($request);
 
 
+        $order = new Order();
+        $order->quickbooks_id = $quickbooks_id;
+        $order->job_order = $job_order;
+        $order->po_no = $request->po_no;
+        $order->place_of_supply = $request->place_of_supply;
+        $order->security_etter =  $security_etter_new_name;
+        $order->rental_advance = $rental_advance_new_name;
+        $order->rental_order = $rental_order_new_name;
+        $order->security_cheque = $security_cheque_new_name;
 
 
-        dd($request);
+
+        $quotation = Quotation::find($request->quotation_id);
+
+        $quotation->order()->save($order);
+
+         Location::create(
+                    [
+                        'location_name'=>$job_order,
+                        'type'=>'job_order',
+                        'state_code'=>$request->place_of_supply,
+                    ]
+                );
+
+         DB::table('quotations')
+            ->where('id', $request->quotation_id)
+            ->update([
+                'converted_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+                ]);
+
+
+
+        return redirect()->route('order.index')
+
+                        ->with('success','Order created successfully');
     }
 
     /**
@@ -120,6 +152,30 @@ class OrderController extends Controller
     public function edit($id)
     {
         //
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function godown(Request $request, $id)
+    {
+        $this->validate($request, [
+
+            'godown_id' => 'required',
+
+        ]);
+
+        DB::table('orders')
+            ->where('id', $id)
+            ->update(array('godown_id' => $request->godown_id));
+
+        return redirect()->route('challan.index')
+
+                        ->with('success','Godown added successfully');
     }
 
     /**

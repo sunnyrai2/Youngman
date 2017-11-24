@@ -41,6 +41,8 @@
 
   <div class="row">
 
+        <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
+
         <div class="col-xs-12 col-sm-12 col-md-12">
 
             <div class="form-group">
@@ -77,7 +79,7 @@
 
               <select name="place_of_supply" class="form-control">
                   @foreach($states as $state)
-                    <option value="{{$state->id}}">{{ $state->state_name}}</option>
+                    <option value="{{$state->state_code}}">{{ $state->state_name}}</option>
                   @endforeach
               </select>
 

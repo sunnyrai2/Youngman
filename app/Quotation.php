@@ -37,6 +37,13 @@ public function quotation_items()
         return $this->hasMany('App\QuotationItems');
     }
 
-
+    /**
+     * The order for this quotation
+     *
+     */
+public function order()
+    {
+        return $this->hasOne('App\Order');
+    }
 
 }

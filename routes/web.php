@@ -254,6 +254,12 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'OrderController@edit','middleware' => ['permission:order-edit']
     ]);
 
+  Route::get('order/{id}/godown',
+    [
+      'as'=>'order.godown',
+      'uses'=>'OrderController@godown','middleware' => ['permission:challan-edit']
+    ]);
+
   Route::patch('order/{id}',
     [
       'as'=>'order.update',
@@ -265,6 +271,49 @@ Route::group(['middleware' => ['auth']], function() {
       'as'=>'order.destroy',
       'uses'=>'OrderController@destroy','middleware' => ['permission:order-delete']
     ]);
+
+    Route::get('challan',
+    [
+      'as'=>'challan.index',
+      'uses'=>'ChallanController@index','middleware' => ['permission:challan-list|challan-create|challan-edit|challan-delete']
+    ]);
+
+  Route::get('challan/create',
+    [
+      'as'=>'challan.create',
+      'uses'=>'ChallanController@create','middleware' => ['permission:challan-create']
+    ]);
+
+  Route::post('challan/store',
+    [
+      'as'=>'challan.store',
+      'uses'=>'ChallanController@store','middleware' => ['permission:challan-create']
+    ]);
+
+  Route::get('challan/{id}',
+    [
+      'as'=>'challan.show',
+      'uses'=>'ChallanController@show'
+    ]);
+
+  Route::get('challan/{id}/edit',
+    [
+      'as'=>'challan.edit',
+      'uses'=>'ChallanController@edit','middleware' => ['permission:challan-edit']
+    ]);
+
+  Route::patch('challan/{id}',
+    [
+      'as'=>'challan.update',
+      'uses'=>'ChallanController@update','middleware' => ['permission:challan-edit']
+    ]);
+
+  Route::delete('challan/{id}',
+    [
+      'as'=>'challan.destroy',
+      'uses'=>'ChallanController@destroy','middleware' => ['permission:challan-delete']
+    ]);
+
 
 
 });
