@@ -18,7 +18,7 @@ class OrderItemFeed extends Migration
             $table->string('job_order');
             $table->string('item_code');
             $table->integer('quantity');
-            $table->unique('job_order', 'item_code');
+            //$table->unique('job_order', 'item_code');
             $table->foreign('item_code')->references('code')->on('items');
             $table->foreign('job_order')->references('job_order')->on('orders');
         });

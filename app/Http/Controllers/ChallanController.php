@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Order;
+use App\Quotation;
 use App\Location;
+use App\Item;
+use DB;
 
 class ChallanController extends Controller
 {
@@ -30,9 +33,16 @@ class ChallanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $order = Order::find($id);
+        $quotation = Quotation::find($order->quotation_id);
+        $item_feed = DB::select('select * from order_item_feed where job_order = ?', [$order->job_order]);
+
+        return view('challan.create')
+          ->with('order', $order)
+          ->with('quotation', $quotation)
+          ->with('item_feed', $item_feed);
     }
 
     /**

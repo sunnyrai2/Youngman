@@ -66,6 +66,44 @@
 
 @endforeach
 
+ @foreach ($orders as $key => $order)
+
+  @if($order->godown_id != null)
+
+    <div class="modal fade" id="modal-godown-{{ $order->id }}" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Godown {{ $order->job_order }}</h4>
+        </div>
+        <div class="modal-body">
+          {!! Form::open(['method' => 'GET','route' => ['challan.create', $order->id],'style'=>'display:inline']) !!}
+          <div class="form-group">
+            {!! Form::Label('godowns', 'Godown:') !!}
+            <select class="form-control" name="godown_id">
+              @foreach($godowns as $x => $x_value)
+                <option value="{{ $x }}">{{ $x_value }}</option>
+              @endforeach
+            </select>
+          </div>
+          {!! Form::submit('Create Challan'); !!}
+          {!! Form::close() !!}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  @endif
+
+@endforeach
+
 
   <table class="table table-bordered">
 
@@ -104,11 +142,10 @@
 
       @if($order->godown_id === null)
 
-    <a class="btn btn-success" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Add Godown
+    <a class="btn btn-warning" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Add Godown</a>
 
       @else
-
-      <a class="btn btn-success" href="{{ route('challan.create',$order->id) }}">Create</a>
+          <a class="btn btn-success" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Create Challan
 
       @endif
 

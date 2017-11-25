@@ -278,7 +278,7 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'ChallanController@index','middleware' => ['permission:challan-list|challan-create|challan-edit|challan-delete']
     ]);
 
-  Route::get('challan/create',
+  Route::get('challan/{id}/create',
     [
       'as'=>'challan.create',
       'uses'=>'ChallanController@create','middleware' => ['permission:challan-create']
