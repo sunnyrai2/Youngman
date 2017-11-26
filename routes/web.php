@@ -33,6 +33,24 @@ Route::get('search_customer',
     'uses'=>'AutoCompleteController@searchCustomer'
   ]);
 
+Route::get('get_requested_item',
+  [
+    'as'=>'get_requested_item',
+    'uses'=>'AutoCompleteController@getRequestedItem'
+  ]);
+
+Route::get('expand_bundle',
+  [
+    'as'=>'expand_bundle',
+    'uses'=>'AutoCompleteController@expandBundle'
+  ]);
+
+Route::get('get_aval_item_quantity',
+  [
+    'as'=>'get_aval_item_quantity',
+    'uses'=>'AutoCompleteController@getAvalItemQuantity'
+  ]);
+
 Route::get('search_item',
   [
     'as'=>'search_item',

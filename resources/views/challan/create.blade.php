@@ -11,7 +11,7 @@
           <div class="pull-left">
 
               <h3>Creating challan for {{ $order->job_order }}</h3>
-              <h4>Godown </h4>
+              <h4>Godown <p id="godown_name">{{ $_GET['godown_id'] }}</p></h4>
 
           </div>
 
@@ -29,14 +29,26 @@
 
   @endif
 
+  <div class="modal modal-danger" id="verify" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <input type="text" name="password" id="password">
+                <button type="submit" name="verify_pass" class="btn btn-primary" data-dismiss="modal" onclick="verifyUser(this.form.password);">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </form>
+        </div>
+    </div>
+  </div>
+
 <div class="col-sm-8">
 
   <div class="panel panel-default">
     <div class="panel-heading">Current Challan</div>
       <div class="panel-body ">
   
-        <table class="table  table-summary table-borderless ">
-            <tbody>
+        <table class="table  table-summary table-borderless " id="table_challan_rental">
+            <thead>
             <tr>
                 <th width="2%"><input id="check_all" class="formcontrol" type="checkbox"></th>
                 <th>Item Id</th>
@@ -46,12 +58,13 @@
                 <th>Available Qty</th>
                 <th>Total</th>
             </tr>
-            
+           </thead>
+           <tbody>
            </tbody>
         </table>
 
-        <button class="btn btn-success">Add Row</button>
-        <button class="btn btn-danger">Delete Row</button>
+        <button class="btn btn-success addmore">Add Row</button>
+        <button class="btn btn-danger delete">Delete Row</button>
         
         </div>
   </div>
@@ -63,7 +76,7 @@
   <div class="panel panel-default">
       <div class="panel-heading">Material to be sent</div>
       <div class="panel-body ">
-        <table class="table table-condensed table-summary table-borderless ">
+        <table class="table table-condensed table-summary table-borderless " id="required_items">
             <tbody>
            <tr>
                 <th>Item Code</th>
@@ -71,10 +84,10 @@
                 <th>Action</th>
             </tr>
             @foreach ($item_feed as $item)
-              <tr>
+              <tr id="{{ $item->item_code }}">
                 <td>{{ $item->item_code }}</td>
                 <td>{{ $item->quantity }}</td>
-                <td><button>Add</button></td>
+                <td><button type="button" class="btnSelect btn-primary">Add</button></td>
               </tr>
             @endforeach
            </tbody>
@@ -86,7 +99,7 @@
   <div class="panel panel-default">
       <div class="panel-heading">Material fullfilled by present BOM</div>
       <div class="panel-body ">
-        <table class="table table-condensed table-summary table-borderless ">
+        <table class="table table-condensed table-summary table-borderless " id="fullfilled_items">
             <tbody>
            <tr>
                 <th>Item Code</th>
@@ -101,8 +114,10 @@
 
 </div>
 
+@endsection
 
-  
+@section('scripts')
 
+    @include('includes.scripts.challan_create')
 
 @endsection

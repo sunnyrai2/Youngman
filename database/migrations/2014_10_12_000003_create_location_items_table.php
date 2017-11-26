@@ -15,16 +15,16 @@ class CreateLocationItemsTable extends Migration
     {
         Schema::create('location_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('location_name');
+            $table->integer('location_id')->unsigned();
             $table->string('item_code');
             $table->integer('ok_quantity')->default(0);
             $table->integer('damaged_quantity')->default(0);
             $table->integer('missing_quantity')->default(0);
             $table->timestamps();
 
-            $table->unique(['location_name', 'item_code']);
-            $table->foreign('location_name')->references('location_name')->on('locations');
+            $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('item_code')->references('code')->on('items');
+            $table->unique(['location_id', 'item_code']);
         });
     }
 
