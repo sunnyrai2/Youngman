@@ -48,8 +48,6 @@ $(document).ready(function(){
       //Function to add filled row
       function addRow(ID, desc, price, quantity, avail_qty) 
       {
-        console.log(ID + desc + price + quantity);
-
         var ids = $("#table_challan_rental").find('#' + ID).html();
         var totLinePrice = parseFloat(price * quantity).toFixed(2);
         
@@ -106,65 +104,65 @@ $(document).ready(function(){
       $("#required_items").on('click', '.btnSelect', function () {
 
         var currentRow = $(this).closest("tr");
-        var ID = currentRow.find("td:eq(1)").text();
+        var ID = currentRow.attr('id');
         var bundle = currentRow.find("td:eq(2)").text();
-        var qty = currentRow.find("td:eq(3)").text();
-        var desc = currentRow.find("td:eq(4)").text();
-        var price = currentRow.find("td:eq(5)").text();
+        var qty = currentRow.find("td:eq(1)").text();
 
-        var qty = parseInt(qty, 10);
+        qty = parseInt(qty, 10);
+
         if (qty > 0) 
         {
-            currentRow.find("td:eq(3)").text(qty - 1);
+            currentRow.find("td:eq(1)").text(qty - 1);
             var row_id = $("#fullfilled_items").find('#' + ID).html();
             if (row_id === undefined || row_id === null) 
             {
-                var new_row = "<tr id='" + ID + "'><td></td><td><input type='text' name='itemCodeBOM[]' value='" + ID + "' readonly></td><td><input type='text' name='itemQtyBOM[]' value='1' readonly></td></tr>";
+                var new_row = "<tr id='" + ID + "'><td><input type='text' name='itemCodeBOM[]' value='" + ID + "' readonly></td><td><input type='text' name='itemQtyBOM[]' value='1' readonly></td></tr>";
                 $("#fullfilled_items tbody").append(new_row);
             } 
             else 
             {
-                var oldQty = $("#fullfilled_items").find('#' + ID).find("td:eq(2)").find('input').val();
+                var oldQty = $("#fullfilled_items").find('#' + ID).find("td:eq(1)").find('input').val();
                 var newQty = parseInt(oldQty) + 1;
-                $("#fullfilled_items").find('#' + ID).find("td:eq(2)").find('input').val(newQty);
+                $("#fullfilled_items").find('#' + ID).find("td:eq(1)").find('input').val(newQty);
             }
         } 
         else return;
 
-        if (bundle == "Bundle") 
+        if (bundle === "Bundle") 
         {
           var src = "{{ route('expand_bundle') }}";
           $.ajax({
-              type: "POST",
+              dataType: "json",
               url: src,
               data: {
                   keyword: ID,
                   location_id: godown
               },
               success: function (data) {
-                var obj = JSON.parse(data);
+                var obj = data//JSON.parse(data);
                     for (var prop in obj) {
-                        addRow(obj[prop].item_code, obj[prop].description, obj[prop].value, obj[prop].quantity, obj[prop].avail_qty);
+                        addRow(obj[prop].code, obj[prop].name, obj[prop].rental_value, obj[prop].quantity, obj[prop].ok_quantity);
                     }
                     calculateTotal()
                 }
             });
         }
-        else 
+        else if(bundle === "Item")
         {
             var avail_qty = '';
             var src = "{{ route('get_aval_item_quantity') }}";
             $.ajax({
-                type: "POST",
+                dataType: "json",
                 url: src,
                 data: {
                     keyword: ID,
                     location_id: godown
                 },
                 success: function (data) {
-                    console.log(data);
-                    avail_qty = (+data); //because typeof (+data) is int
-                    addRow(ID, desc, price, 1, avail_qty);
+                  var obj = data;
+                   for (var prop in obj) {
+                        addRow(obj[prop].code, obj[prop].name, obj[prop].rental_value, "1", obj[prop].ok_quantity);
+                    }
                     calculateTotal()
                 }
             });

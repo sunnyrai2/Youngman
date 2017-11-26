@@ -59,7 +59,7 @@ class AutoCompleteController extends Controller
          ->select("t1.code", "t1.name","t1.rental_value", "t2.ok_quantity" )
          ->join("location_items AS t2", "t1.code", "=", "t2.item_code")
          ->where("t2.location_id", "=",$location)
-         ->where("t1.name","LIKE","%".$query."%%")
+         ->where("t1.name","LIKE","%".$query."%")
          ->get();
 
          $data = array();
@@ -80,10 +80,47 @@ class AutoCompleteController extends Controller
    }
 
    public function expandBundle(Request $request) {
-      return "Hello";
+      $query = $request->keyword;
+      $location = $request->location_id;
+
+      $items = DB::table('items as t1')
+         ->select("t1.code", "t1.name","t1.rental_value", "t3.quantity", "t2.ok_quantity" )
+         ->join("bundle_items AS t3", "t1.code", "=", "t3.item_code")
+         ->join("location_items AS t2", "t1.code", "=", "t2.item_code")
+         ->where("t2.location_id", "=",$location)
+         ->where("t3.bundle_code","=",$query)
+         ->get();
+
+      $data = array();
+         foreach ($items as $item) {
+           $data[]=array(
+                    'name'=>$item->name,
+                    'code'=>$item->code,
+                    'rental_value'=>$item->rental_value,
+                    'ok_quantity'=>$item->ok_quantity,
+                    'quantity'=>$item->quantity
+           );
+         }
+      if(count($data))
+          return json_encode($data);
+      else
+          return ['value'=>'No Result Found','id'=>''];
     }
 
    public function getAvalItemQuantity(Request $request) {
-     return "Hello";
+      $query = $request->keyword;
+      $location = $request->location_id;
+
+      $items = DB::table('items as t1')
+         ->select("t1.code", "t1.name","t1.rental_value", "t2.ok_quantity" )
+         ->join("location_items AS t2", "t1.code", "=", "t2.item_code")
+         ->where("t2.location_id", "=",$location)
+         ->where("t1.code","=",$query)
+         ->get();
+
+      if(count($items))
+          return json_encode($items);
+      else
+          return ['value'=>'No Result Found','id'=>''];
    }
 }

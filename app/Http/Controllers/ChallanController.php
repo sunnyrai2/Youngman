@@ -19,9 +19,9 @@ class ChallanController extends Controller
      */
     public function index(Request $request)
     {
-         $orders = Order::orderBy('id','DESC')->paginate(5);
+        $orders = Order::orderBy('id','DESC')->paginate(5);
 
-         $godowns = Location::where('type','godown')->orderBy('id','DESC')->pluck('location_name','id');
+        $godowns = Location::where('type','godown')->orderBy('id','DESC')->pluck('location_name','id');
 
         return view('challan.index',compact('orders','godowns'))
 
@@ -37,7 +37,9 @@ class ChallanController extends Controller
     {
         $order = Order::find($id);
         $quotation = Quotation::find($order->quotation_id);
-        $item_feed = DB::select('select * from order_item_feed where job_order = ?', [$order->job_order]);
+        $item_feed = DB::select('select o.*, i.bundle 
+          from order_item_feed as o, items as i 
+          where o.job_order = ? and o.item_code = i.code', [$order->job_order]);
 
         return view('challan.create')
           ->with('order', $order)
@@ -53,7 +55,7 @@ class ChallanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

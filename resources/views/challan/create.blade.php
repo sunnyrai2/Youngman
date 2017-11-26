@@ -41,8 +41,9 @@
     </div>
   </div>
 
-<div class="col-sm-8">
+ {!! Form::open(array('route' => 'challan.store','method'=>'POST')) !!}
 
+<div class="col-sm-8">
   <div class="panel panel-default">
     <div class="panel-heading">Current Challan</div>
       <div class="panel-body ">
@@ -81,12 +82,14 @@
            <tr>
                 <th>Item Code</th>
                 <th>Quantity</th>
+                <th>Type</th>
                 <th>Action</th>
             </tr>
             @foreach ($item_feed as $item)
               <tr id="{{ $item->item_code }}">
                 <td>{{ $item->item_code }}</td>
                 <td>{{ $item->quantity }}</td>
+                <td>{{ $item->bundle ? 'Bundle':'Item' }}</td>
                 <td><button type="button" class="btnSelect btn-primary">Add</button></td>
               </tr>
             @endforeach
@@ -100,19 +103,25 @@
       <div class="panel-heading">Material fullfilled by present BOM</div>
       <div class="panel-body ">
         <table class="table table-condensed table-summary table-borderless " id="fullfilled_items">
-            <tbody>
+            <thead>
            <tr>
                 <th>Item Code</th>
                 <th>Quantity</th>
             </tr>
            
-           </tbody>
+           </thead>
+           <tbody></tbody>
         </table>
 
     </div>
   </div>
 
 </div>
+
+{!! Form::hidden('job_order', $order->job_order ) !!}
+{!! Form::hidden('godown',  $_GET['godown_id'] ) !!}
+
+{!! Form::close() !!}
 
 @endsection
 
