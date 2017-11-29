@@ -18,7 +18,7 @@ class CreateChallansTable extends Migration
             $table->string('pickup_location');
             $table->string('delivery_location');
             $table->string('challan_type');
-            $table->string('job_order');
+            $table->integer('order_id')->unsigned();
             $table->string('gr_no');
             $table->decimal('amount', 12, 2);
             $table->string('recieving');

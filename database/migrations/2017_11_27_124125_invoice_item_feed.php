@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class OrderItemFeed extends Migration
+class InvoiceItemFeed extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class OrderItemFeed extends Migration
      */
     public function up()
     {
-         Schema::create('order_item_feed', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('invoice_item_feed', function (Blueprint $table) {
+
             $table->string('job_order');
+            $table->integer('challan_id')->unsigned();
             $table->string('item_code');
             $table->integer('quantity')->unsigned();
-            //$table->unique('job_order', 'item_code');
+
+            $table->primary('job_order', 'challan_id', 'item_code');
             $table->foreign('item_code')->references('code')->on('items');
             $table->foreign('job_order')->references('job_order')->on('orders');
+            $table->foreign('challan_id')->references('id')->on('challans');
         });
     }
 
@@ -31,6 +34,6 @@ class OrderItemFeed extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_item_feed');
+        Schema::dropIfExists('invoice_item_feed');
     }
 }

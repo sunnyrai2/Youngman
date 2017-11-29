@@ -39,7 +39,7 @@ class Order extends Model
      * The items in this quotation
      *
      */
-    public function challan()
+    public function challans()
     {
         return $this->hasMany('App\Challan');
     }

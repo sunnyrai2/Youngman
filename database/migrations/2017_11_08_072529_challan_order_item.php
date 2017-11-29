@@ -17,7 +17,7 @@ class ChallanOrderItem extends Migration
             $table->increments('id');
             $table->integer('challan_id')->unsigned();
             $table->string('item_code');
-            $table->integer('ok_quantity');
+            $table->integer('ok_quantity')->unsigned();
             $table->unique('challan_id', 'item_code');
             $table->foreign('challan_id')->references('id')->on('challans');
             $table->foreign('item_code')->references('code')->on('items');

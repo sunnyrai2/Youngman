@@ -23,7 +23,7 @@ class QuotationItemsTable extends Migration
             $table->primary(array('quotation_no', 'item_code'));
 
             $table->decimal('unit_price', 12,2);
-            $table->integer('quantity');
+            $table->integer('quantity')->unsigned();
             $table->timestamps();
         });
     }

@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\Quotation;
 use App\Location;
+use App\LocationItem;
 use App\Item;
+use App\Challan;
+use App\ChallanItems;
+use App\ChallanOrderItem;
 use DB;
 
 class ChallanController extends Controller
@@ -23,7 +27,14 @@ class ChallanController extends Controller
 
         $godowns = Location::where('type','godown')->orderBy('id','DESC')->pluck('location_name','id');
 
-        return view('challan.index',compact('orders','godowns'))
+        $order_challans = array();
+
+        foreach ($orders as $order) {
+          $order_challans[$order->id] = Order::find($order->id)->challans;
+        }
+
+
+        return view('challan.index',compact('orders','godowns','order_challans'))
 
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -55,7 +66,87 @@ class ChallanController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $this->validate($request, [
+
+            'itemNo' => 'required',
+            'itemName' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'total' => 'required',
+            'itemQtyBOM' => 'required',
+            'itemCodeBOM' => 'required',
+            'job_order' => 'required',
+            'godown' => 'required',
+
+        ]);
+
+        DB::transaction(function($request) use ($request)
+        {
+            $godown = Location::where('id',$request->input('godown'))->pluck('location_name');
+            $job_order_id = Location::where('location_name',$request->input('job_order'))->pluck('id');
+
+           //Create the challan
+            $challan = Challan::create(
+              [
+                  'pickup_location'=>$godown[0],
+                  'delivery_location'=>$request->input('job_order'),
+                  'challan_type'=>'Delivery',
+                  'order_id'=>$job_order_id,
+                  'amount'=>array_sum($request->input('total'))
+              ]);
+
+            $challan_id = $challan->id;
+
+            $item_name = $request->input('itemName');
+            $item_code = $request->input('itemNo');
+            $quantity = $request->input('quantity');
+            $unit_price = $request->input('price');
+            $total_price = $request->input('total');
+            $item_code_BOM = $request->input('itemCodeBOM');
+            $item_qty_BOM = $request->input('itemQtyBOM');
+
+            $count = count($item_name);
+
+            //Add items to challan
+            for($i=0; $i<$count; $i++)
+            {
+                ChallanItems::create(
+                    [
+                        'status'=>0,
+                        'challan_id'=>$challan_id,
+                        'item_code'=>$item_code[$i],
+                        'ok_quantity'=>$quantity[$i],
+                        'unit_price'=>$unit_price[$i],
+                        'total_price'=>$total_price[$i]
+                    ]
+                );
+
+                //Add Items to Job Order Location
+                DB::statement("INSERT INTO location_items (location_id, item_code, ok_quantity) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ok_quantity =( ok_quantity + VALUES(ok_quantity))", [$job_order_id[0], $item_code[$i], $quantity[$i]]);
+
+                //Subtract Items from Godown
+                DB::statement("INSERT INTO location_items (location_id, item_code, ok_quantity) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ok_quantity =( ok_quantity - VALUES(ok_quantity))",  [ $request->input('godown'), $item_code[$i], $quantity[$i]]);
+            }
+
+            $count = count($item_code_BOM);
+
+            for($i=0; $i<$count; $i++)
+            {
+              //Add to Invoice Item feed
+              DB::statement("INSERT INTO invoice_item_feed ( challan_id, job_order, item_code, quantity) VALUES ( ?, ?, ?, ? )", [ $challan_id, $request->input('job_order'), $item_code_BOM[$i], $item_qty_BOM[$i] ]);
+
+              //Add to Challan Order Items
+              DB::statement("INSERT INTO challan_order_item ( challan_id, item_code, ok_quantity) VALUES ( ?, ?, ? )", [ $challan_id, $item_code_BOM[$i], $item_qty_BOM[$i] ] );
+
+              //Subtract from Order Item Feed
+              DB::statement("UPDATE order_item_feed SET quantity = quantity - ? WHERE item_code = ? AND job_order = ?", [ $item_qty_BOM[$i], $item_code_BOM[$i], $request->input('job_order') ] );
+            }
+        });
+
+        return redirect()->route('challan.index')
+
+                        ->with('success','Challan created successfully');
+
     }
 
     /**
@@ -64,9 +155,18 @@ class ChallanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $challan_id = $request->input('challan_id');
+
+        $challan = Challan::find($challan_id);
+        $challan_items = Challan::find($challan_id)->challanItems;
+        $challan_order_items = Challan::find($challan_id)->challanOrderItems;
+         return view('challan.show')
+                  ->with('challan', $challan)
+                  ->with('challan_items', $challan_items)
+                  ->with('challan_order_items', $challan_order_items);
+
     }
 
     /**

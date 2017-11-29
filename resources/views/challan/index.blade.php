@@ -122,6 +122,7 @@
     </tr>
 
   @foreach ($orders as $key => $order)
+  <?php $challans = $order_challans[$order->id]; ?>
 
   <tr>
 
@@ -129,7 +130,21 @@
 
     <td>{{ $order->job_order }}</td>
 
-    <td> View Challan</td>
+    <td> 
+
+        {!! Form::open(array('route' => 'challan.show','method'=>'POST')) !!}
+
+            <select class="form-control" name="challan_id">
+              @foreach($challans as $challan)
+                <option value="{{ $challan->id }}">{{ $challan->id }}</option>
+              @endforeach
+            </select>
+            <button class="btn btn-info" type="submit" name="formpdf_btn">View</button> 
+        {!! Form::close() !!}
+
+
+
+    </td>
 
     <td> <a class="btn btn-info" href="{{ route('order.show',$order->id) }}">Show</a> </td>
 
@@ -146,6 +161,7 @@
 
       @else
           <a class="btn btn-success" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Create Challan
+          </a>
 
       @endif
 

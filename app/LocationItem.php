@@ -14,6 +14,6 @@ class LocationItem extends Model
      * @var array
      */
     protected $fillable = [
-        'location_name', 'item_code', 'ok_quantity', 'damaged_quantity','missing_quantity',
+        'location_id', 'item_code', 'ok_quantity', 'damaged_quantity','missing_quantity',
     ];
 }

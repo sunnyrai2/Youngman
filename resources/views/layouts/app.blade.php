@@ -60,9 +60,13 @@
 
                     <li><a href="{{ url('/home') }}">Home</a></li>
 
+                    @permission('users-edit')
+
                     <li><a href="{{ route('users.index') }}">Users</a></li>
 
                     <li><a href="{{ route('roles.index') }}">Roles</a></li>
+
+                    @endpermission
 
                     @permission('items-create')
 
@@ -93,6 +97,13 @@
                     <li><a href="{{ route('challan.index') }}">Planning</a></li>
 
                     @endpermission
+
+                    @permission('dispatch-pickup-material')
+
+                    <li><a href="{{ route('movement.index') }}">Movement</a></li>
+
+                    @endpermission
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->

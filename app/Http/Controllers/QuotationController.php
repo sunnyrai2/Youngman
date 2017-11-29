@@ -61,8 +61,8 @@ class QuotationController extends Controller
         $user = Auth::user();
 
         $request->request->set('created_by', $user->id);
-        $request->request->set('total', $user->id);
-        $request->request->set('freight', $user->id);
+        $request->request->set('total', 0);
+        $request->request->set('freight', 0);
         $request->request->set('delivery_date', date("Y-m-d", strtotime($request->delivery_date)));
         $request->request->set('pickup_date', date("Y-m-d", strtotime($request->pickup_date)));
 
@@ -90,12 +90,6 @@ class QuotationController extends Controller
                 );
             }
         });
-
-
-
-
-
-
 
         return redirect()->route('quotation.index')
 

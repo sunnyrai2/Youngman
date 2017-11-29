@@ -308,7 +308,7 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'ChallanController@store','middleware' => ['permission:challan-create']
     ]);
 
-  Route::get('challan/{id}',
+  Route::post('challan/view',
     [
       'as'=>'challan.show',
       'uses'=>'ChallanController@show'
@@ -332,6 +332,11 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'ChallanController@destroy','middleware' => ['permission:challan-delete']
     ]);
 
+  Route::get('movement',
+    [
+      'as'=>'movement.index',
+      'uses'=>'MovementController@index','middleware' => ['permission:dispatch-pickup-material|pickup-material|dispatch-material']
+    ]);
 
 
 });
