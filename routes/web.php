@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('qbo/oauth','QuickBookController@qboOauth');
 Route::get('qbo/success','QuickBookController@qboSuccess');
 Route::get('qbo/disconnect','QuickBookController@qboDisconnect');
+Route::get('qbo/getvendors','QuickBookController@getVendors');
 
 Route::get('autocomplete',
   [

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Vendor;
+use DB;
 
 class QuickBookController extends Controller
 {
@@ -192,6 +194,32 @@ class QuickBookController extends Controller
         {
             print($InvoiceService->lastError());
         }
+    }
+
+    public function getVendors(){
+ 
+   $VendorService = new \QuickBooks_IPP_Service_Vendor();
+
+   $vendors = $VendorService->query($this->context, $this->realm, "SELECT * FROM Vendor WHERE GivenName = 'Transporter'");
+   dd($vendors);
+    foreach ($vendors as $vendor)
+    {
+        $name = strip_tags( $vendor->getDisplayName());
+        $id = strip_tags($vendor->getId());
+        $id = QuickBooks_IPP_IDS::usableIDType($id);
+
+        DB::statement("INSERT INTO table_vendors (id, vendor_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE vendor_name = VALUES(vendor_name)",  [ $id, $name]);
+    }
+
+    return;
+    }
+
+    public function getTransporters(){
+
+    }
+
+    public function getSuppliers(){
+
     }
 
     public function getId($resp){

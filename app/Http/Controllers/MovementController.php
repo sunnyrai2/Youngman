@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Challan;
 use App\Order;
 use Auth;
@@ -23,6 +24,10 @@ class MovementController extends Controller
 
           //  ->with('i', ($request->input('page', 1) - 1) * 5);
 
+      $qbo_obj = new \App\Http\Controllers\QuickBookController();
+      $qbo_connect = $qbo_obj->qboConnect();
+
+      dd($qbo_connect);
       $name = Auth::user()->name;
       $warehouse = explode(" ", $name);
       $orders = array();
