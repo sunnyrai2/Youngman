@@ -1,0 +1,2 @@
+{{ Laraval::init() }}
+{{ Laraval::init() }}

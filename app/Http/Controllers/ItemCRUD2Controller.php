@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
-
 use App\Item;
+use App\Location;
+use App\LocationItem;
+use DB;
 
 
 class ItemCRUD2Controller extends Controller
@@ -15,13 +16,9 @@ class ItemCRUD2Controller extends Controller
 {
 
     /**
-
      * Display a listing of the resource.
-
      *
-
      * @return \Illuminate\Http\Response
-
      */
 
     public function index(Request $request)
@@ -111,6 +108,22 @@ class ItemCRUD2Controller extends Controller
 
         return view('ItemCRUD2.show',compact('item'));
 
+    }
+
+    /**
+
+     * Display the item present at which locations
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function showItemAtGodowns(Request $request)
+    {
+      $item_code = $request->get('term','');
+      $items = DB::select("SELECT r.location_id, r.ok_quantity, r.damaged_quantity, r.missing_quantity FROM location_items AS r, locations AS l WHERE l.type = 'godown' AND r.location_id = l.id AND r.item_code = ?", [ $item_code ]);
+
+      return $items;
     }
 
 

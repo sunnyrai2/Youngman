@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
+use App\Location;
+use App\LocationItem;
 
 class LocationController extends Controller
 {
@@ -35,6 +38,19 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Display the Items present at this Location
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showItemsAtLocation($id)
+    {
+        $items = Location::find($id)->location_items;
+        $location = Location::find($id);
+         return view('order.show_items',compact('items', 'location'));
     }
 
     /**

@@ -48,7 +48,7 @@
     <div class="panel-heading">Current Challan</div>
       <div class="panel-body ">
   
-        <table class="table  table-summary table-borderless " id="table_challan_rental">
+        <table class="table  table-summary table-borderless " id="table_stock_adjust">
             <thead>
             <tr>
                 <th width="2%"><input id="check_all" class="formcontrol" type="checkbox"></th>
@@ -64,8 +64,8 @@
            </tbody>
         </table>
 
-        <button class="btn btn-success addmore">Add Row</button>
-        <button class="btn btn-danger delete">Delete Row</button>
+        <button type="button" class="btn btn-success addmore">Add Row</button>
+        <button type="button" class="btn btn-danger delete">Delete Row</button>
         
         </div>
   </div>

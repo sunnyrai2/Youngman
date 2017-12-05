@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Customer;
+use App\Location;
 use App\Item;
 use DB;
 
@@ -35,6 +36,23 @@ class AutoCompleteController extends Controller
             return ['value'=>'No Result Found','id'=>''];
     }
 
+   public function searchJobs(Request $request) {
+        $query = $request->get('term','');
+
+        $locations=Location::where('location_name', 'LIKE','%'.$query.'%')->where('type', 'job_order')->get();
+        $data=array();
+        foreach ($locations as $location) {
+                $data[]=array(
+                    'value'=>$location->location_name,
+                    'id'=>$location->id,
+                );
+        }
+        if(count($data))
+             return $data;
+        else
+            return ['value'=>'No Result Found','id'=>''];
+    }
+
    public function searchItem(Request $request) {
         $query = $request->get('term','');
 
@@ -42,7 +60,7 @@ class AutoCompleteController extends Controller
 
         $data=array();
         foreach ($items as $item) {
-                $data[]=array('value'=>$item->name,'id'=>$item->id);
+                $data[]=array('value'=>$item->name,'id'=>$item->id, 'code'=>$item->code);
         }
         if(count($data))
              return $data;

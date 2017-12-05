@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\QuickBookController;
-
 use App\Customer;
+use DB;
 
 
 class CustomerController extends Controller
@@ -170,50 +170,43 @@ class CustomerController extends Controller
      */
 
     public function update(Request $request, $id)
-
     {
-
         $this->validate($request, [
-
             'title' => 'required',
-
             'description' => 'required',
 
         ]);
 
-
         Customer::find($id)->update($request->all());
 
-
         return redirect()->route('customer.index')
-
                         ->with('success','Customer updated successfully');
-
     }
 
 
     /**
-
      * Remove the specified resource from storage.
-
      *
-
      * @param  int  $id
-
      * @return \Illuminate\Http\Response
-
      */
 
     public function destroy($id)
-
     {
-
         Customer::find($id)->delete();
-
         return redirect()->route('customer.index')
 
                         ->with('success','Customer deleted successfully');
 
+    }
+
+    public function getOrders(Request $request){
+        $customer_id = $request->get('term','');
+        $jobs = DB::select("SELECT orders.job_order FROM customers, quotations, orders WHERE quotations.id = orders.quotation_id AND customers.id = quotations.customer_id AND quotations.customer_id = ?", [$customer_id]);
+        if(count($jobs))
+             return $jobs;
+        else
+            return "No Result Found";
     }
 
 }

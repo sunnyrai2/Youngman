@@ -200,4 +200,14 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function getItemsAtOrder(Request $request)
+    {
+        $query = $request->get('term','');
+        $items = Location::find($query)->location_items;
+        if(count($items))
+             return $items;
+        else
+            return ['value'=>'No Result Found','id'=>''];
+    }
 }

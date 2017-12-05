@@ -7,13 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     /**
-
      * The attributes that are mass assignable.
-
      *
-
      * @var array
-
      */
 
     protected $fillable = [
@@ -36,4 +32,15 @@ class Customer extends Model
             'security_cheque',
 
     ];
+
+
+    /**
+     * The orders for this customer
+     *
+     */
+    public function challanOrderItems()
+    {
+        return $this->hasMany('App\Order');
+    }
+
 }

@@ -34,6 +34,18 @@ Route::get('search_customer',
     'uses'=>'AutoCompleteController@searchCustomer'
   ]);
 
+Route::get('search_jobs',
+  [
+    'as'=>'search_jobs',
+    'uses'=>'AutoCompleteController@searchJobs'
+  ]);
+
+Route::get('get_orders_of_customer',
+  [
+    'as'=>'get_orders_of_customer',
+    'uses'=>'CustomerController@getOrders'
+  ]);
+
 Route::get('get_requested_item',
   [
     'as'=>'get_requested_item',
@@ -58,12 +70,35 @@ Route::get('search_item',
     'uses'=>'AutoCompleteController@searchItem'
   ]);
 
+Route::get('items_at_location/{id}',
+  [
+    'as'=>'items_at_location',
+    'uses'=>'LocationController@showItemsAtLocation'
+  ]);
+
+Route::get('get_items_at_job',
+  [
+    'as'=>'get_items_at_job',
+    'uses'=>'OrderController@getItemsAtOrder'
+  ]);
+
+Route::get('job_stock/',
+  [
+    'as'=>'job_stock',
+    'uses'=>'StockController@jobStock'
+  ]);
+
+Route::get('item_at_godowns/',
+  [
+    'as'=>'item_at_godowns',
+    'uses'=>'ItemCRUD2Controller@showItemAtGodowns'
+  ]);
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::auth();
-
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -339,5 +374,28 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'MovementController@index','middleware' => ['permission:dispatch-pickup-material|pickup-material|dispatch-material']
     ]);
 
+  Route::post('add_delivery_recieving',
+    [
+      'as'=>'add_delivery_recieving',
+      'uses'=>'MovementController@addDeliveryRecieving','middleware' => ['permission:dispatch-pickup-material|pickup-material|dispatch-material']
+    ]);
+
+    Route::get('reciept_of_goods',
+    [
+      'as'=>'reciept_of_goods',
+      'uses'=>'StockController@recieptOfGoods','middleware' => ['permission:reciept-of-goods']
+    ]);
+
+    Route::get('sale_of_goods',
+    [
+      'as'=>'sale_of_goods',
+      'uses'=>'StockController@saleOfGoods','middleware' => ['permission:sale-of-goods']
+    ]);
+
+    Route::get('stock_query',
+    [
+      'as'=>'stock_query',
+      'uses'=>'StockController@stockQuery','middleware' => ['permission:stock-query']
+    ]);
 
 });

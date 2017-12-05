@@ -19,8 +19,10 @@ class CreateChallansTable extends Migration
             $table->string('delivery_location');
             $table->string('challan_type');
             $table->integer('order_id')->unsigned();
+            $table->integer('transporter')->unsigned();
             $table->string('gr_no');
             $table->decimal('amount', 12, 2);
+            $table->decimal('recieving_amount', 12, 2);
             $table->string('recieving');
             $table->date('recieving_date');
             $table->timestamps();

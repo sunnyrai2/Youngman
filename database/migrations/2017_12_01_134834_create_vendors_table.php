@@ -15,6 +15,7 @@ class CreateVendorsTable extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->integer('id');
+            $table->string('type');
             $table->string('vendor_name');
             $table->primary('id');
         });

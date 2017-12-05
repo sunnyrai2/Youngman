@@ -104,6 +104,39 @@
 
                     @endpermission
 
+                    @permission('items-at-warehouse')
+
+                     <li><a href="{{ route('movement.index') }}">Warehouse Stock</a></li>
+
+                    @endpermission
+
+                    @permission('items-at-location')
+
+                     <li><a href="{{ route('job_stock') }}">Job Stock</a></li>
+
+                    @endpermission
+
+                    @permission('stock-query')
+
+                     <li><a href="{{ route('stock_query') }}">Stock Query</a></li>
+
+                    @endpermission
+
+                    @permission('reciept-of-goods')
+
+                     <li><a href="{{ route('reciept_of_goods' ) }}">Reciept</a></li>
+
+                    @endpermission
+
+                    @permission('sale-of-goods')
+
+                     <li><a href="{{ route('sale_of_goods' ) }}">Sale</a></li>
+
+                    @endpermission
+
+                    @permission('initiate-pickup')
+                    @endpermission
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -159,6 +192,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
      <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+
 
         @yield('scripts')
 </body>

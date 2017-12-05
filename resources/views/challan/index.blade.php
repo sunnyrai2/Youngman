@@ -138,8 +138,8 @@
               @foreach($challans as $challan)
                 <option value="{{ $challan->id }}">{{ $challan->id }}</option>
               @endforeach
-            </select>
-            <button class="btn btn-info" type="submit" name="formpdf_btn">View</button> 
+            </select><span>
+            <button class="btn btn-info" type="submit" name="formpdf_btn">View</button></span>
         {!! Form::close() !!}
 
 
