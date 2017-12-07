@@ -17,6 +17,55 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('notify_new_order',
+   [
+    'as'=>'notify_new_order',
+    'uses'=>'NotificationsController@notifyNewOrder'
+   ]);
+
+Route::post('notify_new_movement',
+   [
+    'as'=>'notify_new_movement',
+    'uses'=>'NotificationsController@notifyNewMovement'
+   ]);
+
+Route::post('notify_new_pickup_receiving',
+   [
+    'as'=>'notify_new_pickup_receiving',
+    'uses'=>'NotificationsController@notifyNewPickupRecieving'
+   ]);
+
+Route::post('notify_new_delivery_receiving',
+   [
+    'as'=>'notify_new_delivery_receiving',
+    'uses'=>'NotificationsController@notifyNewDeliveryRecieving'
+   ]);
+
+Route::post('notify_new_pickup_date',
+   [
+    'as'=>'notify_new_pickup_date',
+    'uses'=>'NotificationsController@notifyNewPickupDate'
+   ]);
+
+Route::post('notify_new_pickup_date_extended',
+   [
+    'as'=>'notify_new_pickup_date_extended',
+    'uses'=>'NotificationsController@notifyNewPickupDateExtended'
+   ]);
+
+Route::post('notify_pending_planning',
+   [
+    'as'=>'notify_pending_planning',
+    'uses'=>'NotificationsController@notifyPendingPlanning'
+   ]);
+
+Route::post('notify_pending_movement',
+   [
+    'as'=>'notify_pending_movement',
+    'uses'=>'NotificationsController@notifyPendingMovement'
+   ]);
+
+
 Route::get('qbo/oauth','QuickBookController@qboOauth');
 Route::get('qbo/success','QuickBookController@qboSuccess');
 Route::get('qbo/disconnect','QuickBookController@qboDisconnect');

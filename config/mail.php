@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'vjain@youngman.co.in'),
+        'name' => env('MAIL_FROM_NAME', 'Youngman'),
     ],
 
     /*
@@ -118,6 +118,11 @@ return [
         'paths' => [
             resource_path('views/vendor/mail'),
         ],
+    ],
+
+    'mailgun' => [
+    'domain' => 'https://api.mailgun.net/v3/sandbox2a072d86baed48a4ab362c17f2fe6e5c.mailgun.org',
+    'secret' => 'key-3a109f9001e2a985e83ec666ae38480c',
     ],
 
 ];

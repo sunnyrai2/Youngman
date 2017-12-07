@@ -62,7 +62,6 @@
                   term : job_id,
               },
               "success": function(data) {
-                console.log(data);
                   //Add content to table
                   for(var i in data)
                 {
