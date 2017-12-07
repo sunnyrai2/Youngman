@@ -10,6 +10,8 @@ use App\Order;
 
 use App\Quotation;
 
+use App\QuotationItems;
+
 use App\State;
 
 use App\Location;
@@ -89,6 +91,8 @@ class OrderController extends Controller
             $security_cheque->move('uploads/order_attach', $security_cheque_new_name);
         }
 
+        //Save Order to quickbooks
+        sleep(5);
 
         $quickbooks_controller = new QuickBookController();
         $quickbooks_id = $quickbooks_controller->createOrder($request);
@@ -109,6 +113,12 @@ class OrderController extends Controller
         $quotation = Quotation::find($request->quotation_id);
 
         $quotation->order()->save($order);
+
+        $order_items = QuotationItems::where('quotation_id', $request->quotation_id)->get();
+
+        foreach ($order_items as $key => $order_item) {
+            DB::insert("INSERT INTO `order_item_feed`(`job_order`, `item_code`, `quantity`) VALUES (?, ?, ?)", [ $job_order, $order_item->item_code, $order_item->quantity]);
+        }
 
          Location::create(
                     [

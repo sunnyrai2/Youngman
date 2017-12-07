@@ -29,11 +29,11 @@ class CustomerController extends Controller
 
     {
 
-        $customers = Customer::orderBy('id','DESC')->paginate(5);
+        $customers = Customer::orderBy('id','DESC')->paginate(10);
 
         return view('customer.index',compact('customers'))
 
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
 
     }
 

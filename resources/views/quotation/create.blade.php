@@ -177,10 +177,11 @@
           <div class="table-responsive">
                 <table class="table table-bordered" id="dynamic_field">
                     <tr>
-                        <td><input type="text" name="item_code[]" placeholder="Item Code" class="form-control item_code" /></td>
-                        <td><input type="text" name="item_name[]" placeholder="Item Name" class="form-control item_name" /></td>
-                        <td><input type="text" name="unit_price[]" placeholder="Unit Price" class="form-control unit_price" /></td>
-                        <td><input type="text" name="quantity[]" placeholder="Quantity" class="form-control quantity" /></td>
+                        <td><input id="itemNo_1" type="text" name="item_code[]" placeholder="Item Code" data-type="productCode" class="form-control  autocomplete_txt item_code" /></td>
+                        <td><input id="itemName_1" type="text" name="item_name[]" placeholder="Item Name" data-type="productName" class="form-control  autocomplete_txt item_name" /></td>
+                        <td><input id="price_1" type="text" name="unit_price[]" placeholder="Unit Price" class="form-control unit_price" /></td>
+                        <td><input id="quantity_1" type="text" name="quantity[]" placeholder="Quantity" class="form-control quantity" /></td>
+                        <td><input id="total_1" type="text" name="total[]" placeholder="Total" class="form-control total" readonly /></td>
                     </tr>
                 </table>
                 <button type="button" name="add" id="add" class="btn btn-success">Add More</button>
@@ -202,6 +203,7 @@
     @include('includes.scripts.datepicker')
     @include('includes.scripts.search_customer')
     @include('includes.scripts.add_more_items')
+    @include('includes.scripts.search_item')
 
 @endsection
 

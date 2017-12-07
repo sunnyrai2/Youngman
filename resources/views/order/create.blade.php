@@ -10,7 +10,7 @@
 
           <div class="pull-left">
 
-              <h2>Create New Order</h2>
+              <h2>Create New Order </h2>
 
           </div>
 
@@ -47,7 +47,7 @@
 
             <div class="form-group">
 
-                {!! Form::text('customer_id', null, array('placeholder' => 'Customer Id','class' => 'form-control', 'id'=>'customer_id')) !!}
+                <input type="text", name="customer_id", id="customer_id", class="form-control" value="{{ $quotation->customer_id}}">
 
             </div>
 

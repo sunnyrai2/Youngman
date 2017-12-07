@@ -10,7 +10,7 @@
 
           <div class="pull-left">
 
-              <h2>Customers CRUD</h2>
+              <h2>Customers</h2>
 
           </div>
 
