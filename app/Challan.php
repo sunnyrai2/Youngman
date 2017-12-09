@@ -16,7 +16,7 @@ class Challan extends Model
             'pickup_location',
             'delivery_location',
             'challan_type',
-            'job_order',
+            'order_id',
             'amount',
     ];
 

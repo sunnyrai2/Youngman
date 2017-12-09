@@ -32,7 +32,7 @@ $(document).ready(function(){
          "<td><input type='number' name='quantity_aval[]' id='quantity_aval_" + length + "' class='form-control changesNo quantity' autocomplete='off' onkeypress='return IsNumeric(event); ondrop='return false;' onpaste='return false;' value='' readonly></td>" +
           " <td><input type='number' name='total[]' id='total_" + length + "' class='form-control totalLinePrice' autocomplete='off' onkeypress='return IsNumeric(event);'ondrop='return false;' onpaste='return false;' value='' readonly></td>" + "</tr>";
 
-        $("#table_challan_rental tbody").append(html);
+        $("#table_stock_adjust tbody").append(html);
 
         length++;
       }

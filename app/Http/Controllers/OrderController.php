@@ -16,7 +16,11 @@ use App\State;
 
 use App\Location;
 
+use App\Customer;
+
 use DB;
+
+use App\Notifications\NewOrder;
 
 use App\Http\Controllers\QuickBookController;
 
@@ -34,6 +38,17 @@ class OrderController extends Controller
         return view('order.index',compact('orders'))
 
             ->with('i', ($request->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function pickupsComingUp(Request $request)
+    {
+        $pickupsComingUp = DB::select("SELECT o.id, o.job_order, q.pickup_date FROM orders AS o, quotations AS q WHERE o.quotation_id = q.id AND q.pickup_date < DATE_ADD(CURDATE(), INTERVAL 5 DAY) AND NOT EXISTS (SELECT c.id FROM challans AS c WHERE c.order_id = o.id AND c.challan_type = 'Pickup')");
+        return view('order.pickups')->with('pickupsComingUp', $pickupsComingUp);
     }
 
     /**
@@ -135,7 +150,11 @@ class OrderController extends Controller
                 'updated_at' => date('Y-m-d H:i:s')
                 ]);
 
+        //send notification
+        $customer = Customer::find($quotation->customer_id);
+        $customer->notify((new NewOrder($order, 'Your Order has been punched with Job Order '.$job_order.'. We will keep you updated about your status')));
 
+        // Find all users with permission 'challan-create' and notify them
 
         return redirect()->route('order.index')
 
@@ -213,8 +232,10 @@ class OrderController extends Controller
 
     public function getItemsAtOrder(Request $request)
     {
-        $query = $request->get('term','');
-        $items = Location::find($query)->location_items;
+        $term = $request->get('term','');
+   
+        $items = DB::select("SELECT location_items.ok_quantity, location_items.damaged_quantity, location_items.missing_quantity, location_items.item_code FROM locations, location_items WHERE location_items.location_id = locations.id AND locations.location_name = ?", [$term]);
+
         if(count($items))
              return $items;
         else

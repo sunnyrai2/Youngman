@@ -15,7 +15,7 @@
             });
         },
         select: function( event, ui ) {
-             getItemsAtJob(ui.item.id);
+             getItemsAtJob(ui.item.value);
         },
 
     });
@@ -54,15 +54,18 @@
         },
 
     });
+});
 
-     function getItemsAtJob(job_id){
+        function getItemsAtJob(job_id){
       $.ajax({
               url: "{{route('get_items_at_job') }}",
               data:{
                   term : job_id,
               },
               "success": function(data) {
-                  //Add content to table
+                  //Empty the table body
+                  $("#table_items tbody").html("");
+                   //Add content to table
                   for(var i in data)
                 {
                      var item_code = data[i].item_code;
@@ -71,7 +74,6 @@
                      var missing_quantity  = data[i].missing_quantity
                      
                      var html = "<tr><td> "+item_code +" </td> <td> "+ok_quantity +" </td> <td> "+damaged_quantity +" </td> <td> "+missing_quantity +" </td> </tr>";
-
                      $("#table_items tbody").append(html);
                 }
               }
@@ -79,6 +81,4 @@
      }
 
 
-
-});
 </script>

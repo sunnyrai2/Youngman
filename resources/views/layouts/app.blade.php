@@ -60,7 +60,7 @@
 
                     <li><a href="{{ url('/home') }}">Home</a></li>
 
-                    @permission('users-edit')
+                    @permission('role-edit')
 
                     <li><a href="{{ route('users.index') }}">Users</a></li>
 
@@ -68,7 +68,7 @@
 
                     @endpermission
 
-                    @permission('items-create')
+                    @permission('item-create')
 
                     <li><a href="{{ route('itemCRUD2.index') }}">Items</a></li>
 
@@ -135,6 +135,9 @@
                     @endpermission
 
                     @permission('initiate-pickup')
+
+                     <li><a href="{{ route('initiate_pickup' ) }}">Pickup</a></li>
+
                     @endpermission
 
                 </ul>

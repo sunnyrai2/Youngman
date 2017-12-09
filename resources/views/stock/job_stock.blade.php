@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-              <select name="job_order_select" id="job_order_select" class="form-control">
+              <select name="job_order_select" id="job_order_select" class="form-control" onchange="getItemsAtJob(document.getElementById('job_order_select').value)">
               </select>
             </div>
 

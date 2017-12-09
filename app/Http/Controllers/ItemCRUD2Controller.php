@@ -25,11 +25,11 @@ class ItemCRUD2Controller extends Controller
 
     {
 
-        $items = Item::orderBy('id','DESC')->paginate(5);
+        $items = Item::orderBy('id','DESC')->paginate(10);
 
         return view('ItemCRUD2.index',compact('items'))
 
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
 
     }
 

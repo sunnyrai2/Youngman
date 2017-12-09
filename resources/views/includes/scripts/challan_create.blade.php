@@ -48,6 +48,7 @@ $(document).ready(function(){
       //Function to add filled row
       function addRow(ID, desc, price, quantity, avail_qty) 
       {
+
         var ids = $("#table_challan_rental").find('#' + ID).html();
         var totLinePrice = parseFloat(price * quantity).toFixed(2);
         

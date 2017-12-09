@@ -83,7 +83,8 @@ class ChallanController extends Controller
         DB::transaction(function($request) use ($request)
         {
             $godown = Location::where('id',$request->input('godown'))->pluck('location_name');
-            $job_order_id = Location::where('location_name',$request->input('job_order'))->pluck('id');
+            $job_order_id = Order::where('job_order',$request->input('job_order'))->pluck('id');
+            $order_location = Location::where('location_name', $request->input('job_order'))->pluck('id');
 
            //Create the challan
             $challan = Challan::create(
@@ -91,7 +92,7 @@ class ChallanController extends Controller
                   'pickup_location'=>$godown[0],
                   'delivery_location'=>$request->input('job_order'),
                   'challan_type'=>'Delivery',
-                  'order_id'=>$job_order_id,
+                  'order_id'=>$job_order_id[0],
                   'amount'=>array_sum($request->input('total'))
               ]);
 
@@ -122,7 +123,7 @@ class ChallanController extends Controller
                 );
 
                 //Add Items to Job Order Location
-                DB::statement("INSERT INTO location_items (location_id, item_code, ok_quantity) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ok_quantity =( ok_quantity + VALUES(ok_quantity))", [$job_order_id[0], $item_code[$i], $quantity[$i]]);
+                DB::statement("INSERT INTO location_items (location_id, item_code, ok_quantity) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ok_quantity =( ok_quantity + VALUES(ok_quantity))", [$order_location[0], $item_code[$i], $quantity[$i]]);
 
                 //Subtract Items from Godown
                 DB::statement("INSERT INTO location_items (location_id, item_code, ok_quantity) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ok_quantity =( ok_quantity - VALUES(ok_quantity))",  [ $request->input('godown'), $item_code[$i], $quantity[$i]]);

@@ -240,8 +240,6 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'ItemCRUD2Controller@destroy','middleware' => ['permission:item-delete']
     ]);
 
-  //
-
   Route::get('customer',
     [
       'as'=>'customer.index',
@@ -375,7 +373,13 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'OrderController@destroy','middleware' => ['permission:order-delete']
     ]);
 
-    Route::get('challan',
+  Route::get('initiatePickup',
+    [
+      'as'=>'initiate_pickup',
+      'uses'=>'OrderController@pickupsComingUp','middleware' => ['permission:initiate-pickup']
+    ]);
+
+  Route::get('challan',
     [
       'as'=>'challan.index',
       'uses'=>'ChallanController@index','middleware' => ['permission:challan-list|challan-create|challan-edit|challan-delete']
@@ -429,19 +433,19 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'MovementController@addDeliveryRecieving','middleware' => ['permission:dispatch-pickup-material|pickup-material|dispatch-material']
     ]);
 
-    Route::get('reciept_of_goods',
+  Route::get('reciept_of_goods',
     [
       'as'=>'reciept_of_goods',
       'uses'=>'StockController@recieptOfGoods','middleware' => ['permission:reciept-of-goods']
     ]);
 
-    Route::get('sale_of_goods',
+  Route::get('sale_of_goods',
     [
       'as'=>'sale_of_goods',
       'uses'=>'StockController@saleOfGoods','middleware' => ['permission:sale-of-goods']
     ]);
 
-    Route::get('stock_query',
+  Route::get('stock_query',
     [
       'as'=>'stock_query',
       'uses'=>'StockController@stockQuery','middleware' => ['permission:stock-query']

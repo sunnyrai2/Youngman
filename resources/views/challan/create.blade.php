@@ -48,7 +48,7 @@
     <div class="panel-heading">Current Challan</div>
       <div class="panel-body ">
   
-        <table class="table  table-summary table-borderless " id="table_stock_adjust">
+        <table class="table  table-summary table-borderless " id="table_challan_rental">
             <thead>
             <tr>
                 <th width="2%"><input id="check_all" class="formcontrol" type="checkbox"></th>
