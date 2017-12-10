@@ -136,7 +136,7 @@
 
                     @permission('initiate-pickup')
 
-                     <li><a href="{{ route('initiate_pickup' ) }}">Pickup</a></li>
+                     <li><a href="{{ route('order.pickup' ) }}">Pickup</a></li>
 
                     @endpermission
 

@@ -373,10 +373,16 @@ Route::group(['middleware' => ['auth']], function() {
       'uses'=>'OrderController@destroy','middleware' => ['permission:order-delete']
     ]);
 
-  Route::get('initiatePickup',
+  Route::get('order.pickup',
+    [
+      'as'=>'order.pickup',
+      'uses'=>'OrderController@pickupsComingUp','middleware' => ['permission:initiate-pickup']
+    ]);
+
+  Route::post('initiate_pickup',
     [
       'as'=>'initiate_pickup',
-      'uses'=>'OrderController@pickupsComingUp','middleware' => ['permission:initiate-pickup']
+      'uses'=>'OrderController@initiatePickupOrExtend','middleware' => ['permission:initiate-pickup']
     ]);
 
   Route::get('challan',
