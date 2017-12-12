@@ -161,12 +161,13 @@ class ChallanController extends Controller
         $challan_id = $request->input('challan_id');
 
         $challan = Challan::find($challan_id);
-        $challan_items = Challan::find($challan_id)->challanItems;
+        $challan_items = DB::select("SELECT i.code, i.name, c.unit_price, c.ok_quantity, i.rental_value, g.CGST, g.SGST, g.IGST, g.HSN  FROM tax_rates AS g, challan_items AS c, items AS i WHERE g.HSN = i.HSN AND c.challan_id = ? AND i.code = c.item_code", [$challan_id]);
         $challan_order_items = Challan::find($challan_id)->challanOrderItems;
          return view('challan.show')
                   ->with('challan', $challan)
                   ->with('challan_items', $challan_items)
-                  ->with('challan_order_items', $challan_order_items);
+                  ->with('challan_order_items', $challan_order_items)
+                  ->with('interstate', false);
 
     }
 

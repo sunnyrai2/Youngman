@@ -48,7 +48,12 @@ class OrderController extends Controller
     public function pickupsComingUp(Request $request)
     {
         $pickupsComingUp = DB::select("SELECT o.id, o.job_order, q.pickup_date FROM orders AS o, quotations AS q WHERE o.quotation_id = q.id AND q.pickup_date < DATE_ADD(CURDATE(), INTERVAL 5 DAY) AND NOT EXISTS (SELECT c.id FROM challans AS c WHERE c.order_id = o.id AND c.challan_type = 'Pickup')");
-        return view('order.pickups')->with('pickupsComingUp', $pickupsComingUp);
+
+        $godowns = Location::where('type','godown')->orderBy('id','DESC')->pluck('location_name','id');
+        
+        return view('order.pickups')
+                ->with('pickupsComingUp', $pickupsComingUp)
+                ->with('godowns', $godowns);
     }
 
     /**
@@ -240,5 +245,15 @@ class OrderController extends Controller
              return $items;
         else
             return ['value'=>'No Result Found','id'=>''];
+    }
+
+    /**
+     * Initiate a pickup or extend it
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function initiatePickupOrExtend(Request $request){
+        dd($request);
     }
 }

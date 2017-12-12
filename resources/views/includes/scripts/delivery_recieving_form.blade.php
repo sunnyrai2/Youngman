@@ -13,7 +13,6 @@
       $.validator.setDefaults({
         submitHandler: function (form) {
             var formData = new FormData( form );
-            console.log(formData);
             $.ajax({
                 url: "{{ route('add_delivery_recieving') }}",
                 type: 'POST',
@@ -22,7 +21,6 @@
                  $("#loading").show();
                 },
                 success: function (data) {
-                    console.log(data);
                     location.reload(); 
                 },
                 error: function(data){
