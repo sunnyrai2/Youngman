@@ -106,8 +106,7 @@
 
 
   <table class="table table-bordered">
-
-    <tr>
+      <thead>
 
       <th>No</th>
 
@@ -119,59 +118,60 @@
 
       <th width="280px">Create Challan</th>
 
-    </tr>
+    </thead>
+    <tbody>
+      @foreach ($orders as $key => $order)
+      <?php $challans = $order_challans[$order->id]; ?>
 
-  @foreach ($orders as $key => $order)
-  <?php $challans = $order_challans[$order->id]; ?>
+      <tr>
 
-  <tr>
+        <td>{{ ++$i }}</td>
 
-    <td>{{ ++$i }}</td>
+        <td>{{ $order->job_order }}</td>
 
-    <td>{{ $order->job_order }}</td>
+        <td> 
 
-    <td> 
+            {!! Form::open(array('route' => 'challan.show','method'=>'POST')) !!}
 
-        {!! Form::open(array('route' => 'challan.show','method'=>'POST')) !!}
-
-            <select class="form-control" name="challan_id">
-              @foreach($challans as $challan)
-                <option value="{{ $challan->id }}">{{ $challan->id }}</option>
-              @endforeach
-            </select><span>
-            <button class="btn btn-info" type="submit" name="formpdf_btn">View</button></span>
-        {!! Form::close() !!}
-
-
-
-    </td>
-
-    <td> <a class="btn btn-info" href="{{ route('order.show',$order->id) }}">Show</a> </td>
-
-
-    <td>
+                <select class="form-control" name="challan_id">
+                  @foreach($challans as $challan)
+                    <option value="{{ $challan->id }}">{{ $challan->id }}</option>
+                  @endforeach
+                </select><span>
+                <button class="btn btn-info" type="submit" name="formpdf_btn">View</button></span>
+            {!! Form::close() !!}
 
 
 
-      @permission('challan-create')
+        </td>
 
-      @if($order->godown_id === null)
+        <td> <a class="btn btn-info" href="{{ route('order.show',$order->id) }}">Show</a> </td>
 
-    <a class="btn btn-warning" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Add Godown</a>
 
-      @else
-          <a class="btn btn-success" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Create Challan
-          </a>
+        <td>
 
-      @endif
 
-      @endpermission
 
-    </td>
+          @permission('challan-create')
 
-  </tr>
+          @if($order->godown_id === null)
 
-  @endforeach
+        <a class="btn btn-warning" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Add Godown</a>
+
+          @else
+              <a class="btn btn-success" role="button" data-toggle="modal" data-target="#modal-godown-{{ $order->id }}">Create Challan
+              </a>
+
+          @endif
+
+          @endpermission
+
+        </td>
+
+      </tr>
+
+      @endforeach
+  </tbody>
 
   </table>
 

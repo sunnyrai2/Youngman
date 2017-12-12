@@ -197,6 +197,8 @@
      <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    
+    
 
 
         @yield('scripts')
